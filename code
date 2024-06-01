@@ -1,0 +1,35 @@
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, MessageHandler, filters, CallbackContext
+
+# Функция для обработки команды /start
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text('Привет! Спасибо за ваше сообщение. Скоро с вами свяжется менеджер.')
+
+# Функция для обработки текстовых сообщений
+def handle_message(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text('Привет! Спасибо за ваше сообщение. Скоро с вами свяжется менеджер.')
+
+def main() -> None:
+    # Вставьте сюда ваш API токен
+    token = '6769308606:AAGLo_tFx16yoRroAH9qxnHKaqrWCPHRX3k'
+
+    # Создание объекта Updater и передача ему токена вашего бота
+    updater = Updater(token)
+
+    # Получение диспетчера для регистрации обработчиков
+    dispatcher = updater.dispatcher
+
+    # Регистрация обработчика команды /start
+    dispatcher.add_handler(CommandHandler("start", start))
+
+    # Регистрация обработчика текстовых сообщений
+    dispatcher.add_handler(MessageHandler(filters.text & ~filters.command, handle_message))
+
+    # Запуск бота
+    updater.start_polling()
+
+    # Ожидание остановки (нажатие Ctrl+C)
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
